@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-import old.ProcessImage as pi
+import ProcessImage as pi
 
 
 def get_image():

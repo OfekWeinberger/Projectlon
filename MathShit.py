@@ -1,6 +1,6 @@
 import math
 
-LAYSER_DISTANCE = 0.225
+LAYSER_DISTANCE = 0.23
 
 
 def distance_from_wall(left_x, left_y, right_x, right_y, screen_width=640, fov=0.5477):

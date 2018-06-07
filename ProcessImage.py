@@ -23,6 +23,7 @@ def blob():
     im = cv2.imread("raw_footage\\1.jpeg", cv2.IMREAD_GRAYSCALE)
     cv2.imshow("Keypoints", im)
     cv2.waitKey(0)
+
     # Set up the detector with default parameters.
     detector = cv2.SimpleBlobDetector()
 

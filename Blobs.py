@@ -3,25 +3,22 @@ import cv2
 import numpy as np;
 
 # Read image
-im = cv2.imread("raw_footage\\4.jpg", cv2.IMREAD_GRAYSCALE)
+import MathShit as ms
+
+im = cv2.imread("raw_footage\\6.jpg", cv2.IMREAD_GRAYSCALE)
+im = cv2.bitwise_not(im)
 cv2.imshow("Keypoints", im)
 cv2.waitKey(0)
 # Set up the detector with default parameters.
 
 # Setup SimpleBlobDetector parameters.
 params = cv2.SimpleBlobDetector_Params()
+params.minThreshold = 0
+params.maxThreshold = 40
 
-# Filter by threshold
-params.minThreshold = 200
-params.maxThreshold = 255
-
-# Filter by Area.
+# Area
 params.filterByArea = True
 params.minArea = 0.01
-
-# Filter by color.
-params.filterByColor = True
-params.blobColor = 255
 
 # Create a detector with the parameters
 ver = (cv2.__version__).split('.')
@@ -32,7 +29,14 @@ else:
 
 
 keypoints = detector.detect(im)
-print(keypoints[0].pt)
+left_x = keypoints[0].pt[0]
+left_y = keypoints[0].pt[1]
+right_x = keypoints[1].pt[0]
+right_y = keypoints[1].pt[1]
+
+print((((left_x - right_x) ** 2 + (left_y - right_y) ** 2) ** 0.5) / 640)
+print(ms.distance_from_wall(left_x, left_y, right_x, right_y))
+
 # Draw detected blobs as red circles.
 # cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS ensures the size of the circle corresponds to the size of blob
 im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)

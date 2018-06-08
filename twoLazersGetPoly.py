@@ -36,7 +36,7 @@ def get_poly7():
             else:
                 detector = cv2.SimpleBlobDetector_create(params)
 
-            cutten_im = im[250:300, 250:390]
+            cutten_im = im[250:300, 270:340]
             keypoints = detector.detect(cutten_im)
             if (len(keypoints) >= 2):
                 break

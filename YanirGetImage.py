@@ -8,6 +8,8 @@ def get_image():
     cap = cv2.VideoCapture(0)
     fgbg = cv2.createBackgroundSubtractorKNN(history=24)
     i = 0
+    for i in range(10):
+        ret, frame2 = cap.read()
     while (True):
         i += 1
         # Capture frame-by-frame
@@ -23,18 +25,15 @@ def get_image():
         biggest_contours = sorted(contour_sizes, key=lambda x: x[0])
         if (len(biggest_contours) > 1):
             contour1 = biggest_contours[-1][1]
-            contour2 = biggest_contours[-2][1]
             contour1_size = biggest_contours[-1][0]
-            contour2_size = biggest_contours[-2][0]
-            if (contour1_size > 50 and contour2_size > 50):
-                x, y, w, h = cv2.boundingRect(np.concatenate((contour1, contour2)))
-                print(w, h)
-                if (3 < h < 60 and 10 < w < 350 and i > 0):
+            if (contour1_size > 40):
+                x, y, w, h = cv2.boundingRect(np.concatenate((contour1)))
+                if (True):
                     frameArray = np.array(frame)
                     crop_img = frame[y:(int)(y + h), :]
                     cap.release()
                     cv2.destroyAllWindows()
-                    return frame2
+                    return pi.mask_handle(fgmask, frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

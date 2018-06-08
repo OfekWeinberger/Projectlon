@@ -19,34 +19,46 @@ def get_distance(img):
     params = cv2.SimpleBlobDetector_Params()
     params.minThreshold = 0
     params.maxThreshold = 40
-
     # Area
     params.filterByArea = True
-    params.minArea = 10
-    print(111111111111)
+    for j in range(1, 30, 1):
+        params.minArea = 30 - j
     # Create a detector with the parameters
-    ver = (cv2.__version__).split('.')
-    if int(ver[0]) < 3:
-        detector = cv2.SimpleBlobDetector(params)
-    else:
-        detector = cv2.SimpleBlobDetector_create(params)
-    cutten_img = img[250:340, 250:390]
-    keypoints = detector.detect(cutten_img)
-    cv2.imshow("sdv", cutten_img)
-    cv2.waitKey(10000)
+        ver = (cv2.__version__).split('.')
+        if int(ver[0]) < 3:
+            detector = cv2.SimpleBlobDetector(params)
+        else:
+            detector = cv2.SimpleBlobDetector_create(params)
+        cutten_img = img[:-50, 250:360]
+        cv2.imshow("m", cutten_img)
+        cv2.waitKey(1000)
+        print(cutten_img.shape)
+        keypoints = detector.detect(cutten_img)
+        if (len(keypoints) >= 2):
+            break
+
+    # cv2.imshow("sdv", cutten_img)
     if (len(keypoints) == 1):
-        my_poly = ONE_LAZER_POLY
-        left_x = keypoints[0].pt[0]
-        left_y = keypoints[0].pt[1]
-        right_x = 320
-        right_y = 240
-    else:
+        print("used one point")
+        # cutten_img = img[250:290, 250:310]
+        # keypoints = detector.detect(cutten_img)
+        my_poly = TWO_LAZER_POLY
+        left_x = keypoints[0].pt[0] + 250
+        left_y = keypoints[0].pt[1] + 250
+        right_x = 309
+        right_y = 265
+        dis = 2 * (((left_x - right_x) ** 2) + ((left_y - right_y) ** 2)) ** 0.5
+
+    elif len(keypoints) >= 2:
+        print("used two points")
         my_poly = TWO_LAZER_POLY
         left_x = keypoints[0].pt[0]
         left_y = keypoints[0].pt[1]
         right_x = keypoints[1].pt[0]
         right_y = keypoints[1].pt[1]
-    dis = (((left_x - right_x) ** 2 + (left_y - right_y) ** 2) ** 0.5)
+        dis = (((left_x - right_x) ** 2) + ((left_y - right_y) ** 2)) ** 0.5
+    else:
+        print("didn't find points")
     return my_poly(dis)
 
 

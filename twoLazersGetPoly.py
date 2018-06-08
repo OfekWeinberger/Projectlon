@@ -8,9 +8,9 @@ from old import MathShit as ms
 
 def get_poly7():
     x = []
-    y = [i for i in range(5, 16, 1)]
-    for i in range(5, 16, 1):
-        str = "fit_experiment2\\" + i.__str__() + ".jpg"
+    y = [i for i in range(10, 16, 1)]
+    for i in range(10, 16, 1):
+        str = "fit_experiment4\\" + (i - 5).__str__() + ".jpg"
         im = cv2.imread(str, cv2.IMREAD_GRAYSCALE)
         im = cv2.bitwise_not(im)
         cv2.imshow("Keypoints", im)
@@ -24,18 +24,23 @@ def get_poly7():
 
         # Area
         params.filterByArea = True
-        params.minArea = 30 - (i - 5) * 2
+        for j in range(1, 30, 1):
+            params.minArea = 30 - j
 
-        # Create a detector with the parameters
-        ver = (cv2.__version__).split('.')
-        if int(ver[0]) < 3:
-            detector = cv2.SimpleBlobDetector(params)
-        else:
-            detector = cv2.SimpleBlobDetector_create(params)
+            # Create a detector with the parameters
+            ver = (cv2.__version__).split('.')
+            if int(ver[0]) < 3:
+                detector = cv2.SimpleBlobDetector(params)
+            else:
+                detector = cv2.SimpleBlobDetector_create(params)
 
-        cutten_im = im[280:360, 250:390]
-        keypoints = detector.detect(cutten_im)
-        # cv2.imshow("sdv", cutten_im)
+            cutten_im = im[250:300, 250:390]
+            keypoints = detector.detect(cutten_im)
+            if (len(keypoints) >= 2):
+                break
+            if (j == 29):
+                print(29292929299229)
+        cv2.imshow("sdv", cutten_im)
         cv2.waitKey(10000)
 
         print(len(keypoints))
@@ -56,7 +61,7 @@ def get_poly7():
         cv2.imshow("Keypoints", im_with_keypoints)
         cv2.waitKey(0)
 
-    str = np.polyfit(x, y, 7)
+    str = np.polyfit(x, y, 5)
     np.save("poly2", str)
     func = np.poly1d(str)
     return func

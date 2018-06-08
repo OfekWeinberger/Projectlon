@@ -8,4 +8,3 @@ def laser_on():
     time.sleep(1.5)
     ser.write(b"1")
 
-laser_on()

@@ -11,7 +11,8 @@ def get_image():
     while (True):
         i += 1
         # Capture frame-by-frame
-        ret, frame = cap.read()
+        ret, frame2 = cap.read()
+        frame = frame2[250:340, :]
         # Our operations on the frame come here
         fgmask = fgbg.apply(frame)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -26,14 +27,14 @@ def get_image():
             contour1_size = biggest_contours[-1][0]
             contour2_size = biggest_contours[-2][0]
             if (contour1_size > 50 and contour2_size > 50):
-                print(contour1_size, contour2_size)
                 x, y, w, h = cv2.boundingRect(np.concatenate((contour1, contour2)))
-                if (2 < h < 80 and 10 < w < 150 and i > 0):
+                print(w, h)
+                if (3 < h < 60 and 10 < w < 350 and i > 0):
                     frameArray = np.array(frame)
-                    crop_img = frame[y:(int)(y + h), x:x + w]
+                    crop_img = frame[y:(int)(y + h), :]
                     cap.release()
                     cv2.destroyAllWindows()
-                    return frame
+                    return frame2
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

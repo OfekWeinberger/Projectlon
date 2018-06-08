@@ -33,7 +33,7 @@ def get_poly7():
         else:
             detector = cv2.SimpleBlobDetector_create(params)
 
-        cutten_im = im[280:360, 250:390]
+        cutten_im = im[250:340, 250:390]
         keypoints = detector.detect(cutten_im)
         # cv2.imshow("sdv", cutten_im)
         cv2.waitKey(10000)

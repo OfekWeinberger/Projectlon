@@ -13,29 +13,26 @@ ONE_LAZER_POLY = func
 
 def get_distance(img):
     img = cv2.bitwise_not(img)
-    cv2.imgshow("Keypoints", img)
-    cv2.waitKey(0)
     # Set up the detector with default parameters.
 
     # Setup SimgpleBlobDetector parameters.
-    params = cv2.SimgpleBlobDetector_Params()
+    params = cv2.SimpleBlobDetector_Params()
     params.minThreshold = 0
     params.maxThreshold = 40
 
     # Area
     params.filterByArea = True
     params.minArea = 10
-
+    print(111111111111)
     # Create a detector with the parameters
     ver = (cv2.__version__).split('.')
     if int(ver[0]) < 3:
-        detector = cv2.SimgpleBlobDetector(params)
+        detector = cv2.SimpleBlobDetector(params)
     else:
-        detector = cv2.SimgpleBlobDetector_create(params)
-
-    cutten_img = img[280:360, 250:390]
+        detector = cv2.SimpleBlobDetector_create(params)
+    cutten_img = img[250:340, 250:390]
     keypoints = detector.detect(cutten_img)
-    # cv2.imgshow("sdv", cutten_img)
+    cv2.imshow("sdv", cutten_img)
     cv2.waitKey(10000)
     if (len(keypoints) == 1):
         my_poly = ONE_LAZER_POLY

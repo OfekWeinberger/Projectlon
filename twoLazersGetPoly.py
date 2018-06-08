@@ -1,6 +1,8 @@
 # Standard imports
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 # Read image
 from old import MathShit as ms
@@ -64,6 +66,15 @@ def get_poly7():
     str = np.polyfit(x, y, 5)
     np.save("poly2", str)
     func = np.poly1d(str)
+    plt.plot(x, y)
+    plt.show()
+    str = np.polyfit(x, y, 7)
+    func = np.poly1d(str)
+    genx = np.linspace(min(x), max(x), 10000)
+    geny = func(genx)
+    plt.plot(genx, geny)
+    plt.show()
+    # plt.plot(x,y) -----plt.show()
     return func
 
 

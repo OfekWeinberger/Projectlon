@@ -1,14 +1,9 @@
-import cv2
-import keyboard
-import YanirGetImage
-import getDistance
-import ArduinoConnect
-import time
+import numpy as np
+import matplotlib.pyplot as plt
 
-for i in range(100):
-    while (True):
-        if keyboard.is_pressed("ENTER"):
-            break
-    ArduinoConnect.laser_on()
-    img = YanirGetImage.get_image()
-    cv2.imwrite("fit_experiment4\\" + str(i) + ".jpg", img)
+str = np.load("poly2.npy")
+func = np.poly1d(str)
+genx = np.linspace(0, 100, 1)
+geny = func(genx)
+plt.plot(genx, geny)
+plt.show()
